@@ -2,12 +2,19 @@
 
         <div class="course">
             <div class="wrapper">
+                <div :id="'check'+index"class="outer-check">
+
+                    <div class="check-text"><div class="inner-check">&#10004;</div></div>
+                </div>
+
                 <img src="../../src/assets/pic.jpg"/>
                 <div :id="'icon' + index" class="bar"></div>
             </div>
             <div class="course-contents">
-                <h1>{{title}}</h1>
-                <p>Course Contents</p>
+                <div class="content-wrapper">
+                    <h1>{{title}}</h1>
+                    <p>Progress {{completion}} %</p>
+                </div>
             </div>
         </div>
 
@@ -29,6 +36,15 @@
         },
 
         methods:{
+            displayCompleted(container){
+
+                var display = '#check'+ container.substr((container.length - (container.length-5)));
+
+
+                $(display).css({
+                    'display':'block'
+                })
+            },
             progressBar(){
                 var ProgressBar = require('progressbar.js');
                 //console.log(this.completion * 0.01);
@@ -37,21 +53,25 @@
                 var progress = this.completion * 0.01;
 
 
-
-                console.log("called");
-
                 var i;
 
 
                 var icon = "#icon" + this.index;
 
                 var one = new ProgressBar.Circle(icon, {
-                    strokeWidth: 3,
+                    strokeWidth: 5,
                     color: 'rgb(222, 46, 7)',
                     duration: 1000,
                     easing: 'easeInOut',
 
                 });
+
+                if(progress == 1) {
+
+                    this.displayCompleted(icon);
+                }
+
+
 
                 one.animate(progress);
             }
